@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hora del dispositivo</title>
+</head>
+<body>
+<h1>Hora actual de tu dispositivo:</h1>
+<p id="hora"></p>
+ 
+    <script>
+
+        function mostrarHora() {
+
+            const ahora = new Date();
+
+            document.getElementById("hora").textContent = ahora.toLocaleString();
+
+        }
+
+        mostrarHora();
+
+        setInterval(mostrarHora, 1000); // Actualiza cada segundo
+</script>
+</body>
+</html>
