@@ -1,25 +1,55 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<title>Hora del dispositivo</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QRLogix - Redirección</title>
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 40px;
+            color: #071D49;
+        }
+        .mensaje {
+            margin-top: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        .cargando {
+            margin-top: 20px;
+            font-size: 1rem;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-<h1>Hora actual de tu dispositivo:</h1>
-<p id="hora"></p>
- 
+    <h1>🔄 Redirigiendo a QRLogix...</h1>
+    <div class="mensaje" id="mensaje"></div>
+    <div class="cargando">Por favor espere...</div>
+
     <script>
+        // ✅ Cambia esta URL cada vez que actualices el túnel
+        const BASE_URL = "https://TU-TUNEL-ACTUAL.ngrok-free.app";  
 
-        function mostrarHora() {
+        // Obtener parámetros de la URL
+        const params = new URLSearchParams(window.location.search);
+        const punto = params.get("punto");
 
-            const ahora = new Date();
-
-            document.getElementById("hora").textContent = ahora.toLocaleString();
-
+        if (punto) {
+            const destino = `${BASE_URL}/scan/punto${punto}`;
+            document.getElementById("mensaje").textContent = 
+                `Será redirigido al Punto ${punto}`;
+            
+            // Redirigir en 1.5 segundos
+            setTimeout(() => {
+                window.location.href = destino;
+            }, 1500);
+        } else {
+            document.getElementById("mensaje").textContent = 
+                "⚠️ No se especificó ningún punto.";
         }
-
-        mostrarHora();
-
-        setInterval(mostrarHora, 1000); // Actualiza cada segundo
-</script>
+    </script>
 </body>
 </html>
