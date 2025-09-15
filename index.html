@@ -1,25 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-<title>Hora del dispositivo</title>
+  <meta charset="utf-8" />
+  <title>QRLogix Redirect</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body{
+        font-family:system-ui,Arial,sans-serif;
+        display:flex;
+        min-height:100vh;
+        align-items:center;
+        justify-content:center;
+        margin:0;
+        background:#f7f7f7;color:#333
+        }
+    .card{
+        background:#fff;
+          padding:24px 20px;border-radius:12px;
+          box-shadow:0 6px 24px rgba(0,0,0,.08);
+          max-width:520px;text-align:center
+         }
+    .muted{
+        color:#666;font-size:.95rem
+          }
+    code{
+        background:#f0f0f0;
+        padding:2px 6px;border-radius:6px
+        }
+  </style>
 </head>
 <body>
-<h1>Hora actual de tu dispositivo:</h1>
-<p id="hora"></p>
- 
-    <script>
+  <div class="card">
+    <h1>Conectando con QRLogix…</h1>
+    <p class="muted">Si no ocurre nada, revisa tu conexión o vuelve a escanear el QR.</p>
+    <p class="muted">También puedes abrir manualmente el enlace reflejado en tu QR.</p>
+  </div>
+  <script>
+    // Opción simple: actualiza BASE cuando cambie tu túnel (ngrok / Cloudflare / etc.)
+    const BASE = "https://TU-TUNEL-ACtUAL.ejemplo";  // <-- ACTUALIZA ESTO CUANDO CAMBIE EL TÚNEL
 
-        function mostrarHora() {
-
-            const ahora = new Date();
-
-            document.getElementById("hora").textContent = ahora.toLocaleString();
-
-        }
-
-        mostrarHora();
-
-        setInterval(mostrarHora, 1000); // Actualiza cada segundo
-</script>
+    // El QR debe apuntar a: https://usuarioap03-hash.github.io/hosting/?path=scan/punto1
+    // o para el registro de dispositivos: ?path=registro_dispositivo
+    const qs = new URLSearchParams(location.search);
+    const path = (qs.get("path") || "").replace(/^\/+/, "");
+    if (BASE && path) {
+      location.replace(`${BASE}/${path}`);
+    } else {
+      document.querySelector(".card").innerHTML =
+        "<h2>Falta configuración</h2><p class='muted'>No se pudo construir la URL.</p>";
+    }
+  </script>
 </body>
 </html>
